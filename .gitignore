@@ -1,0 +1,16 @@
+# secrets
+.env
+*.key
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# scratch / rebuildable intermediates (final outputs, keyframes, clips, audio stay committed)
+outputs/assemble/
+outputs/shots/_import/
+outputs/music/_import/
+outputs/shots/kaggle_bundle.zip
+outputs/smoke/
+storyboard.draft.json

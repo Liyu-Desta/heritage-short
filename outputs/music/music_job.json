@@ -1,0 +1,21 @@
+{
+  "key": "9d1692ddd13d",
+  "prompt": "gentle Ethiopian krar and masinko, soft kebero hand drum, warm, nostalgic, sparse, cinematic, slow build, instrumental",
+  "lyrics": "[instrumental]",
+  "bpm": 72,
+  "duration_s": 77,
+  "candidates": [
+    {
+      "id": "c1",
+      "seed": 4200
+    },
+    {
+      "id": "c2",
+      "seed": 4201
+    },
+    {
+      "id": "c3",
+      "seed": 4202
+    }
+  ]
+}

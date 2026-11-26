@@ -1,0 +1,11 @@
+{
+  "_note": "List-price equivalent per successful call in USD, matched by substring of the model id. What we actually paid is cost_usd (0 on free tiers). Fill these from each provider's pricing page on the day you measure, and cite the page and date in COSTS.md. null = unknown, and the report then prints n/a.",
+  "per_call_usd": {
+    "flux-1-schnell": null,
+    "flux-2": null,
+    "tts": null,
+    "flash": null,
+    "Wan2.2": null,
+    "ACE-Step": null
+  }
+}

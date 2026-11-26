@@ -1,0 +1,178 @@
+{
+  "$schema": "./schema/storyboard.schema.json",
+  "title": "EXAMPLE - The Road to the Market",
+  "language": "en",
+  "audience": "EXAMPLE: replace with your real audience. Grandchildren in the diaspora aged 15-30, watching on phones in WhatsApp family groups and on TikTok.",
+  "intent": "EXAMPLE: replace. They should feel the weight of what one ordinary walk cost, and want to call their grandmother and ask her for the rest of the story.",
+  "style": {
+    "description": "Warm hand-painted look, soft film grain, golden early-morning light, muted earth tones of ochre, terracotta and eucalyptus green, gentle depth of field, highland Ethiopian landscape",
+    "negative": "text, watermark, logo, extra fingers, distorted face, modern cars, plastic"
+  },
+  "characters": [
+    {
+      "id": "grandmother",
+      "name": "Etete",
+      "description": "a slender Ethiopian woman in her early twenties with warm dark-brown skin, an oval face, a small gap between her front teeth, hair braided close to the scalp in thin cornrows, wearing a white cotton habesha dress with a narrow green-yellow-red tibeb border and a white netela shawl over her shoulders, barefoot",
+      "real_person": false
+    }
+  ],
+  "voice": {
+    "tts_voice": "Sulafat",
+    "style_prompt": "Read this slowly and warmly, like an elder telling a story to her grandchildren in the evening, with small pauses:"
+  },
+  "music": {
+    "prompt": "gentle Ethiopian krar and masinko, soft kebero hand drum, warm, nostalgic, sparse, cinematic, slow build, instrumental",
+    "lyrics": "[instrumental]",
+    "bpm": 72,
+    "candidates": 3,
+    "selected": null,
+    "bed_db": -6,
+    "duck": { "threshold": 0.03, "ratio": 8, "attack_ms": 20, "release_ms": 400 }
+  },
+  "end_card": {
+    "lines": [
+      "For Etete, who walked it every Saturday.",
+      "Made with AI: images, motion, music and voice are AI-generated from a family story told with consent.",
+      "Gemini TTS - FLUX - Wan 2.2 - ACE-Step"
+    ],
+    "duration_s": 5
+  },
+  "render": { "fps": 24, "narration_offset_s": 0.4, "loudness_lufs": -14 },
+  "shots": [
+    {
+      "id": "s01",
+      "duration_s": 7,
+      "purpose": "Establish place and time before any person: the world she walked through.",
+      "characters": [],
+      "image_prompt": "Wide shot of misty highland hills at dawn, a narrow dirt path winding between eucalyptus trees toward a distant town",
+      "motion_prompt": "mist drifting slowly across the hills, eucalyptus leaves trembling in a light breeze",
+      "camera": "push_in",
+      "music_cue": "intro, krar alone",
+      "seed": 101,
+      "narration": {
+        "text": "Every Saturday, before the sun was up, my grandmother walked to the market.",
+        "translation_en": "Every Saturday, before the sun was up, my grandmother walked to the market."
+      }
+    },
+    {
+      "id": "s02",
+      "duration_s": 8,
+      "purpose": "Introduce her face, so the audience bonds with a person rather than a landscape.",
+      "characters": ["grandmother"],
+      "image_prompt": "Medium close-up of a young woman tying her white netela shawl inside a dim round tukul hut, lit by the glow of a small charcoal fire",
+      "motion_prompt": "she pulls the shawl around her shoulders, firelight flickering on her face",
+      "camera": "static",
+      "music_cue": "krar continues",
+      "seed": 102,
+      "narration": {
+        "text": "She was twenty years old. The basket on her head held everything we had to sell.",
+        "translation_en": "She was twenty years old. The basket on her head held everything we had to sell."
+      }
+    },
+    {
+      "id": "s03",
+      "duration_s": 8,
+      "purpose": "Show the stakes: the basket is the family's income.",
+      "characters": ["grandmother"],
+      "image_prompt": "Close-up of hands arranging eggs and bundles of green coffee beans in a woven sefed basket on a mud floor",
+      "motion_prompt": "her hands gently place the last egg, the basket rocks slightly",
+      "camera": "push_in",
+      "music_cue": "kebero enters softly",
+      "seed": 103,
+      "narration": {
+        "text": "Eggs from our hens. Coffee from the tree behind the house. Not much, but it was ours.",
+        "translation_en": "Eggs from our hens. Coffee from the tree behind the house. Not much, but it was ours."
+      }
+    },
+    {
+      "id": "s04",
+      "duration_s": 8,
+      "purpose": "The journey: scale of the distance, her small figure in a big land.",
+      "characters": ["grandmother"],
+      "image_prompt": "Extreme wide shot of a lone young woman walking barefoot along a ridge path at sunrise, a basket balanced on her head, long shadow",
+      "motion_prompt": "she walks steadily from left to right, shawl moving in the wind, sun rising behind the hills",
+      "camera": "pan_right",
+      "music_cue": "build",
+      "seed": 104,
+      "narration": {
+        "text": "Three hours there. Three hours back. She never once let the basket fall.",
+        "translation_en": "Three hours there. Three hours back. She never once let the basket fall."
+      }
+    },
+    {
+      "id": "s05",
+      "duration_s": 7,
+      "purpose": "Arrival: noise, colour and life after the quiet of the road.",
+      "characters": [],
+      "image_prompt": "A busy open-air highland market, women in white shawls under woven umbrellas, piles of red berbere and onions, donkeys, warm dust in the air",
+      "motion_prompt": "people moving between stalls, dust glowing in the light, an umbrella turning",
+      "camera": "pull_out",
+      "music_cue": "fuller, masinko melody",
+      "seed": 105,
+      "narration": {
+        "text": "At the market she bargained like a merchant twice her age.",
+        "translation_en": "At the market she bargained like a merchant twice her age."
+      }
+    },
+    {
+      "id": "s06",
+      "duration_s": 8,
+      "purpose": "Her character: confidence and humour, not only hardship.",
+      "characters": ["grandmother"],
+      "image_prompt": "Medium shot of the young woman laughing as she hands a coffee bundle to an older trader across a wooden stall",
+      "motion_prompt": "she laughs and tilts her head, the trader counts coins into her palm",
+      "camera": "static",
+      "music_cue": "light, playful",
+      "seed": 106,
+      "narration": {
+        "text": "She always said: a soft word sells more coffee than a loud voice.",
+        "translation_en": "She always said: a soft word sells more coffee than a loud voice."
+      }
+    },
+    {
+      "id": "s07",
+      "duration_s": 8,
+      "purpose": "The turn: what the money became, connecting her walk to the narrator's life.",
+      "characters": [],
+      "image_prompt": "Close-up of a few coins and a folded paper note tucked into a small cloth pouch beside a child's school notebook and pencil on a wooden table",
+      "motion_prompt": "lamplight flickers, a breeze lifts the notebook page",
+      "camera": "push_in",
+      "music_cue": "drop to krar alone",
+      "seed": 107,
+      "narration": {
+        "text": "Every coin went into a cloth pouch. That pouch paid for my father's school books.",
+        "translation_en": "Every coin went into a cloth pouch. That pouch paid for my father's school books."
+      }
+    },
+    {
+      "id": "s08",
+      "duration_s": 7,
+      "purpose": "The walk home at dusk, mirroring the opening to close the circle.",
+      "characters": ["grandmother"],
+      "image_prompt": "Wide shot of the young woman walking home along the same ridge path at dusk, empty basket under her arm, purple sky",
+      "motion_prompt": "she walks slowly away from camera, first stars appearing, grass moving",
+      "camera": "pull_out",
+      "music_cue": "swell",
+      "seed": 108,
+      "narration": {
+        "text": "She came home in the dark, tired, and proud.",
+        "translation_en": "She came home in the dark, tired, and proud."
+      }
+    },
+    {
+      "id": "s09",
+      "duration_s": 9,
+      "purpose": "Land the intent: the audience is the continuation of her walk.",
+      "characters": [],
+      "image_prompt": "The same dirt path in morning light today, empty, with fresh footprints in the dust leading toward the town",
+      "motion_prompt": "dust settles in the footprints, light slowly brightens",
+      "camera": "push_in",
+      "music_cue": "resolve and fade",
+      "seed": 109,
+      "narration": {
+        "text": "I have never walked that road. But every step I take today, I take on hers.",
+        "translation_en": "I have never walked that road. But every step I take today, I take on hers."
+      }
+    }
+  ]
+}

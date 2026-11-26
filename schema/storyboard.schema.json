@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/heritage-short/storyboard.schema.json",
+  "title": "Heritage Short storyboard",
+  "description": "The single contract between every pipeline stage. Each stage reads this file; nothing else is shared between stages except files in outputs/.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "language", "audience", "intent", "style", "characters", "voice", "music", "end_card", "shots"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "language": {
+      "type": "string",
+      "description": "BCP-47 code of the narration language, e.g. am, om, ti, so, en.",
+      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+    },
+    "audience": { "type": "string", "minLength": 10, "description": "Who watches, where. Mirrors DESIGN.md." },
+    "intent": { "type": "string", "minLength": 10, "description": "What they should feel or understand at the end." },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description"],
+      "properties": {
+        "description": { "type": "string", "minLength": 10, "description": "Visual qualities prepended to every image prompt. Describe qualities, never name a living artist." },
+        "negative": { "type": "string", "description": "Things to avoid (used by models that accept a negative prompt)." }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "description"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "name": { "type": "string" },
+          "description": { "type": "string", "minLength": 20, "description": "Locked appearance text, injected verbatim into every shot that features this character." },
+          "real_person": { "type": "boolean", "default": false },
+          "consent_ref": { "type": "string", "description": "Pointer to the consent entry in ETHICS.md. Required when real_person is true." }
+        },
+        "if": { "properties": { "real_person": { "const": true } }, "required": ["real_person"] },
+        "then": { "required": ["consent_ref"] }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tts_voice"],
+      "properties": {
+        "tts_voice": { "type": "string", "description": "Prebuilt Gemini TTS voice name, e.g. Kore, Charon, Sulafat." },
+        "style_prompt": { "type": "string", "description": "Natural-language delivery direction prepended to every line." }
+      }
+    },
+    "music": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt"],
+      "properties": {
+        "prompt": { "type": "string", "minLength": 5, "description": "ACE-Step tags / description of the score." },
+        "lyrics": { "type": "string", "description": "Optional lyrics. Use [instrumental] for a score." },
+        "bpm": { "type": "integer", "minimum": 40, "maximum": 200 },
+        "candidates": { "type": "integer", "minimum": 1, "maximum": 8, "default": 3 },
+        "selected": { "type": ["string", "null"], "description": "Candidate id chosen for the film (e.g. c2). null means placeholder music." },
+        "bed_db": { "type": "number", "maximum": 0, "default": -6, "description": "Static music gain before ducking." },
+        "duck": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "threshold": { "type": "number", "exclusiveMinimum": 0, "maximum": 1, "default": 0.03 },
+            "ratio": { "type": "number", "minimum": 1, "maximum": 20, "default": 8 },
+            "attack_ms": { "type": "number", "minimum": 1, "default": 20 },
+            "release_ms": { "type": "number", "minimum": 1, "default": 400 }
+          }
+        }
+      }
+    },
+    "end_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lines", "duration_s"],
+      "properties": {
+        "lines": {
+          "type": "array", "minItems": 1, "items": { "type": "string" },
+          "contains": { "type": "string", "pattern": "(?i)\\bAI\\b" },
+          "description": "Must contain at least one line that says the film was made with AI."
+        },
+        "duration_s": { "type": "number", "minimum": 2, "maximum": 10 }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fps": { "type": "integer", "enum": [24, 25, 30], "default": 24 },
+        "narration_offset_s": { "type": "number", "minimum": 0, "maximum": 3, "default": 0.4 },
+        "loudness_lufs": { "type": "number", "minimum": -24, "maximum": -9, "default": -14 }
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "duration_s", "purpose", "image_prompt", "motion_prompt", "narration", "seed"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^s[0-9]{2}$" },
+          "duration_s": { "type": "number", "minimum": 3, "maximum": 15 },
+          "purpose": { "type": "string", "minLength": 5, "description": "Why this shot exists, in one sentence (design thinking)." },
+          "characters": { "type": "array", "items": { "type": "string" }, "default": [] },
+          "image_prompt": { "type": "string", "minLength": 10 },
+          "motion_prompt": { "type": "string", "minLength": 5, "description": "What moves, for Wan 2.2 image-to-video." },
+          "camera": {
+            "type": "string",
+            "enum": ["static", "push_in", "pull_out", "pan_left", "pan_right"],
+            "default": "push_in",
+            "description": "Also drives the pan-and-zoom fallback when no video clip exists."
+          },
+          "music_cue": { "type": "string", "description": "Free-text cue, e.g. 'intro', 'swell', 'drop out'." },
+          "seed": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+          "narration": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text", "translation_en"],
+            "properties": {
+              "text": { "type": "string", "description": "Line in the narration language. Empty string = no narration on this shot." },
+              "translation_en": { "type": "string", "description": "English subtitle text." }
+            }
+          }
+        }
+      }
+    }
+  }
+}
