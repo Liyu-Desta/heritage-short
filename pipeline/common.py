@@ -126,8 +126,13 @@ def log_call(**fields) -> None:
     fields.setdefault("cost_usd", 0.0)  # free tier: what we actually paid
     if "model" in fields and "list_price_usd" not in fields:
         fields["list_price_usd"] = list_price(fields["model"])
+    line = json.dumps(fields, ensure_ascii=False)
+    for name in ("CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN", "GEMINI_API_KEY", "KAGGLE_API_TOKEN"):
+        val = os.environ.get(name)
+        if val and len(val) >= 8:  # error messages can echo request URLs; never let an id or key reach the log
+            line = line.replace(val, f"<{name}>")
     with open(RUNS, "a", encoding="utf-8") as f:
-        f.write(json.dumps(fields, ensure_ascii=False) + "\n")
+        f.write(line + "\n")
 
 
 def say(msg: str) -> None:

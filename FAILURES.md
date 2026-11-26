@@ -110,3 +110,12 @@ moved or been replaced, record what replaced it here.
   prompt key. Harmless with one round of candidates; wrong as soon as two rounds sit side by side.
 - **Fixed:** resolve `{selected}.{music_key}.*` (the candidate made from the current prompt); fall back to the newest
   file with a warning. Caught only because I read the stage's log line rather than trusting "done".
+
+## F12: Cloudflare account id leaked into runs.jsonl (found before making the repo public)
+- **Broke:** a pre-publication scan for my keys found no API key or token anywhere (files or git history), but the
+  Cloudflare **account id** appeared 4 times in `runs.jsonl`: network-error messages echo the request URL, and the
+  URL contains the account id.
+- **Fixed:** `log_call` now replaces the values of `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `GEMINI_API_KEY` and
+  `KAGGLE_API_TOKEN` with placeholders before writing any line; the 4 existing lines were scrubbed. An account id alone
+  cannot authenticate, so I did not rewrite the already-pushed history.
+- **Learned:** "secrets in `.env`" is not enough. Logs and error messages are a second leak path, so scan everything git will publish.
