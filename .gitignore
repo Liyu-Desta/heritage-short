@@ -14,3 +14,12 @@ outputs/music/_import/
 outputs/shots/kaggle_bundle.zip
 outputs/smoke/
 storyboard.draft.json
+
+# raw story recordings (private: a real person's voice)
+story/*.ogg
+story/*.m4a
+story/*.mp3
+story/*.wav
+story/*.opus
+outputs/*/_kaggle_output/
+outputs/shots/_bundle/

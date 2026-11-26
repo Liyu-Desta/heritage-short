@@ -80,7 +80,12 @@ def run(sb: dict, only=None) -> Path:
         say(f"[music] score cached ({want})")
         return SCORE
     if sel:
-        hits = sorted(CAND.glob(f"{sel}.*")) if CAND.exists() else []
+        # Match the candidate rendered from the *current* prompt (its key), not any file named c2.* (FAILURES.md F11).
+        hits = sorted(CAND.glob(f"{sel}.{music_key(sb)}.*")) if CAND.exists() else []
+        if not hits and CAND.exists():
+            hits = sorted(CAND.glob(f"{sel}.*"), key=lambda p: p.stat().st_mtime, reverse=True)
+            if hits:
+                say(f"  warn: no {sel} for the current music prompt; using the newest {hits[0].name}")
         if not hits:
             raise SystemExit(f"music.selected='{sel}' but no outputs/music/candidates/{sel}.* file. Run the import first.")
         if hits[0].suffix == ".wav":

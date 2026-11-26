@@ -75,9 +75,11 @@ def _to_frame(raw: bytes, w: int, h: int) -> Image.Image:
 
 def ref_spec(sb: dict, c: dict):
     m = model()
-    prompt = (f"{sb['style']['description']}. Character reference sheet of one person on a plain light background: "
-              f"front view, three-quarter view and full-body view, same face and clothing in every view. "
-              f"{c['description']}")
+    # Plain background on purpose: FLUX.2 copies whatever is in a reference image, so a sheet drawn inside a
+    # scene leaked its alley into indoor shots (EXPERIMENTS.md E2).
+    prompt = (f"Character reference sheet on a plain flat white background, no scenery, no buildings, no ground, "
+              f"front view and full-body view, same face and clothing in every view: {c['description']}. "
+              f"Rendering style only (ignore any place it mentions): {sb['style']['description']}")
     seed = 1000 + sum(map(ord, c["id"]))
     return prompt, seed, cached(REF_DIR, c["id"], key(prompt, seed, m, steps(m)), "png")
 
@@ -88,8 +90,13 @@ def keyframe_spec(sb: dict, s: dict):
     m = model()
     chars = characters_for(sb, s)
     char_text = " ".join(f"{c['name']}: {c['description']}" for c in chars)
-    prompt = f"{sb['style']['description']}. {s['image_prompt']}. {char_text}".strip()
     ref_paths = [ref_spec(sb, c)[2] for c in chars] if is_flux2(m) else []
+    if ref_paths:  # scene first so it wins; references constrain appearance only (EXPERIMENTS.md E2)
+        prompt = (f"Scene: {s['image_prompt']}. Style: {sb['style']['description']}. "
+                  f"Characters, appearance only, taken from the reference images (do not copy their background or pose; "
+                  f"each character appears exactly once): {char_text}. No text, signs or writing anywhere.")
+    else:
+        prompt = f"{sb['style']['description']}. {s['image_prompt']}. {char_text}. No text, signs or writing anywhere."
     ref_hashes = [file_hash(p) if p.exists() else "missing" for p in ref_paths] if ref_paths else None
     k = key(prompt, s["seed"], m, steps(m), ref_hashes)
     return prompt, ref_paths, cached(KF_DIR, s["id"], k, "png")

@@ -21,7 +21,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-from pipeline.common import OUT, ffmpeg, load_storyboard, media_duration, say
+from pipeline.common import OUT, ffmpeg, latest, load_storyboard, media_duration, say
 from pipeline.keyframes import keyframe_spec
 from pipeline.music import SCORE, run as resolve_music
 from pipeline.narration import narration_path
@@ -61,6 +61,11 @@ def shot_segment(sb: dict, s: dict, out: Path, fps: int, radio: bool) -> str:
                f"scale={WW}:{WH}:force_original_aspect_ratio=increase,crop={WW}:{WH},setpts={stretch:.4f}*PTS,"
                f"fps={fps},tpad=stop_mode=clone:stop_duration={d}", "-frames:v", frames, *ENC, out)
         return "clip"
+    if not radio and not kf.exists():  # current keyframe not drawn yet (e.g. image quota): use the newest older one
+        older = latest(OUT / "keyframes", s["id"], "png")
+        if older:
+            say(f"  warn: {s['id']} uses an older keyframe {older.name}; run the keyframes stage for the current one")
+            kf = older
     if not radio and kf.exists():
         ffmpeg("-loop", "1", "-i", kf, "-vf", kenburns_filter(s.get("camera", "push_in"), frames, fps),
                "-frames:v", frames, *ENC, out)
@@ -70,7 +75,10 @@ def shot_segment(sb: dict, s: dict, out: Path, fps: int, radio: bool) -> str:
 
 
 def font(size: int, bold: bool = False):
-    for name in (["arialbd.ttf", "DejaVuSans-Bold.ttf"] if bold else ["arial.ttf", "DejaVuSans.ttf"]):
+    # Ebrima / Nyala / Noto Sans Ethiopic cover Ge'ez script (Amharic end-card lines); Arial does not.
+    names = (["ebrimabd.ttf", "NotoSansEthiopic-Bold.ttf", "arialbd.ttf", "DejaVuSans-Bold.ttf"] if bold
+             else ["ebrima.ttf", "NotoSansEthiopic-Regular.ttf", "nyala.ttf", "arial.ttf", "DejaVuSans.ttf"])
+    for name in names:
         try:
             return ImageFont.truetype(name, size)
         except OSError:

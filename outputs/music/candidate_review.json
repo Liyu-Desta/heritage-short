@@ -1,0 +1,38 @@
+{
+ "r1_c1": {
+  "lufs": "-16.8",
+  "lra": "5.6",
+  "silences": 1,
+  "review": "1) No vocals or spoken words.\n2) Electronic synthesizers, pads, and percussion. It does not sound Ethiopian; it lacks traditional instruments like the krar, masinko, or kebero, featuring a modern electronic pop/ambient style instead.\n3) The mood is nostalgic, uplifting, and reflective. Shape over time: starts ambient and builds gently (0:00–0:12), reaches its main melodic and rhythmic peak (0:48–1:12), and winds down with a soft, fading outro (1:12–1:25).\n4) No glitches, artifacts, abrupt cuts, or harsh noises; production is clean.\n5) Score: 6/10. While the mood fits the nostalgic theme well, the purely Western electronic instrumentation makes it less authentic for an Addis Ababa setting compared to a hybrid score incorporating traditional Ethiopian elements."
+ },
+ "r1_c2": {
+  "lufs": "-18.2",
+  "lra": "9.5",
+  "silences": 0,
+  "review": "1) **Vocals / Spoken words:** No vocals or sung/spoken words are present.  \n2) **Instruments & Ethiopian flavor:** Features a pulsing synthesizer beat and a chiming, music-box-like melody. It does not sound Ethiopian; it lacks traditional instruments like the krar, masinko, or kebero, having a modern, electronic, sci-fi/mystery vibe instead.  \n3) **Mood & Shape:** Tense, mysterious, and driving. It maintains a steady suspenseful pulse from the start, builds tension through the middle as the synth arpeggio intensifies around 0:45, hits a subtle peak around 1:00, and ends abruptly with a hanging synth chord at 1:04.  \n4) **Quality:** Clean and polished; no digital glitches, artefacts, harsh noise, or abrupt audio cuts outside of the intentional musical fade-out at the end.  \n5) **Score for this use:** 3/10. While well-produced, the modern electronic/synth-pop style clashes completely with the nostalgic, warm, cultural tone expected of an Addis Ababa childhood narrative."
+ },
+ "r1_c3": {
+  "lufs": "-14.0",
+  "lra": "5.4",
+  "silences": 0,
+  "review": "1) No vocals or spoken words.\n2) Electronic synths (lead arpeggios, pads, bass), electronic drums; does not feature traditional Ethiopian instruments like krar, masinko, or kebero.\n3) Nostalgic, gentle synth-wave style. It has an even energy throughout (0:00–1:25) without dramatic builds or peaks, though percussion drops out near the end.\n4) Clean electronic production; no glitches, artifacts, or harsh noise.\n5) Score: 6/10 (fits a nostalgic 85s vibe well, but lacks organic/local Ethiopian instrumentation)."
+ },
+ "r2_c1": {
+  "lufs": "-13.7",
+  "lra": "7.9",
+  "silences": 1,
+  "review": "1) No vocals or spoken words.\n2) Primarily an acoustic guitar with a simple, folk-like melody and rhythm. It does not sound particularly Ethiopian; it lacks traditional instruments like the krar, masinko, or kebero, leaning instead toward a Western acoustic style.\n3) The mood is gentle, nostalgic, and reflective. Shape:\n   - 0:00–0:10: Gentle introduction establishing the simple guitar pattern.\n   - 0:10–0:55: Gradual build with light string pads entering to add warmth and emotional depth.\n   - 0:55–1:10: Peak of the cue, with fuller instrumentation and richer textures.\n   - 1:10–1:25: Soft winding down to a quiet, unresolved ending.\n4) No glitches, artifacts, abrupt cuts, or harsh noise; the mix is clean and warm.\n5) 6/10 for the use-case. While the emotional tone fits a nostalgic childhood reflection well, the lack of traditional Ethiopian instrumentation means it misses an authentic cultural flavor for an Addis Ababa setting."
+ },
+ "r2_c2": {
+  "lufs": "-18.2",
+  "lra": "4.0",
+  "silences": 0,
+  "review": "1) No vocals or spoken words.\n2) Instrumentation: strings/violins, plucked acoustic instruments (reminiscent of krar), and percussion. Yes, it evokes traditional Ethiopian folk music.\n3) Mood: Nostalgic, warm, slightly whimsical. Shape: starts gentle and atmospheric, builds into a more rhythmic, driving melody around 0:21, peaks in energy through the middle section, and resolves with a playful, fading outro starting around 1:04.\n4) Audio quality: Clean recording with no noticeable glitches, artifacts, abrupt cuts, or harsh noise.\n5) Score: 8.5/10 — fits the nostalgic, culturally resonant tone well."
+ },
+ "r2_c3": {
+  "lufs": "-13.4",
+  "lra": "3.2",
+  "silences": 0,
+  "review": "1) No vocals or spoken words.\n2) Electronic drums/bass, electric guitar, and bright, bouncy synth keys. It does not sound Ethiopian (lacks traditional instruments like the krar, masinko, or kebero).\n3) Upbeat, nostalgic, and breezy. Starts immediately with a steady, driving groove (0:00), maintains a consistent, feel-good energy throughout without major dramatic shifts, and fades smoothly to a gentle stop at the end (1:23).\n4) No glitches, artifacts, abrupt cuts, or harsh noise; production is clean.\n5) Score: 4/10. While the groove is pleasant and nostalgic, the electronic/synth-pop instrumentation feels too modern and western for an authentic Ethiopian childhood setting."
+ }
+}

@@ -1,39 +1,46 @@
 {
   "$schema": "./schema/storyboard.schema.json",
-  "title": "EXAMPLE - The Road to the Market",
-  "language": "en",
-  "audience": "EXAMPLE: replace with your real audience. Grandchildren in the diaspora aged 15-30, watching on phones in WhatsApp family groups and on TikTok.",
-  "intent": "EXAMPLE: replace. They should feel the weight of what one ordinary walk cost, and want to call their grandmother and ask her for the rest of the story.",
+  "title": "The Only TV on Our Street",
+  "language": "am",
+  "audience": "Ethiopians aged 18-35, in Ethiopia and the diaspora, who grew up in a sefer (neighbourhood) in the 2000s-2010s, and young parents raising children among screens today. They watch on phones, on TikTok, Telegram and Facebook, think in Amharic and remember Gemena night.",
+  "intent": "They should feel the warmth of a shared childhood they recognise as their own, understand that playing together is how children learn to get along with people, and want to send their own children (or younger siblings) outside to play.",
   "style": {
-    "description": "Warm hand-painted look, soft film grain, golden early-morning light, muted earth tones of ochre, terracotta and eucalyptus green, gentle depth of field, highland Ethiopian landscape",
-    "negative": "text, watermark, logo, extra fingers, distorted face, modern cars, plastic"
+    "description": "Warm hand-painted illustration, soft painterly brushwork, gentle film grain, nostalgic golden late-afternoon light, earthy palette of ochre, rust, faded turquoise and eucalyptus green, soft depth of field, an Addis Ababa neighbourhood of the early 2010s with corrugated tin roofs, painted metal gates and dirt alleys",
+    "negative": "text, letters, subtitles, watermark, logo, brand names, extra fingers, distorted faces, modern skyscrapers, smartphones in the 2010s scenes"
   },
   "characters": [
     {
-      "id": "grandmother",
-      "name": "Etete",
-      "description": "a slender Ethiopian woman in her early twenties with warm dark-brown skin, an oval face, a small gap between her front teeth, hair braided close to the scalp in thin cornrows, wearing a white cotton habesha dress with a narrow green-yellow-red tibeb border and a white netela shawl over her shoulders, barefoot",
+      "id": "young_me",
+      "name": "Young me",
+      "description": "an Ethiopian girl about nine years old with warm dark-brown skin, a round face, big bright eyes, short natural hair in two puff buns tied with red bands, wearing a faded yellow cotton dress with a small white collar and blue plastic sandals",
+      "real_person": false
+    },
+    {
+      "id": "sefer_kids",
+      "name": "Neighbourhood children",
+      "description": "a small group of Ethiopian neighbourhood children aged seven to eleven: a tall thin boy with dark-brown skin in a faded red football shirt, a small boy with dark-brown skin and short black hair in a blue knitted sweater, and a girl with thin braids in a green dress",
       "real_person": false
     }
   ],
   "voice": {
     "tts_voice": "Sulafat",
-    "style_prompt": "Read this slowly and warmly, like an elder telling a story to her grandchildren in the evening, with small pauses:"
+    "style_prompt": "Read this Amharic line slowly and warmly, like a young woman fondly remembering her childhood, smiling, with small natural pauses:"
   },
   "music": {
-    "prompt": "gentle Ethiopian krar and masinko, soft kebero hand drum, warm, nostalgic, sparse, cinematic, slow build, instrumental",
+    "prompt": "acoustic, organic, ethio-jazz, East African folk, plucked lyre, bowed single-string fiddle, wooden flute, hand drums, pentatonic melody, tizita, nostalgic, warm, gentle, playful, childhood memories, slow build then soft resolve, no synthesizer, no electronic drums",
     "lyrics": "[instrumental]",
-    "bpm": 72,
+    "bpm": 84,
     "candidates": 3,
-    "selected": null,
-    "bed_db": -6,
-    "duck": { "threshold": 0.03, "ratio": 8, "attack_ms": 20, "release_ms": 400 }
+    "selected": "c2",
+    "bed_db": -8,
+    "duck": { "threshold": 0.03, "ratio": 10, "attack_ms": 15, "release_ms": 450 }
   },
   "end_card": {
     "lines": [
-      "For Etete, who walked it every Saturday.",
-      "Made with AI: images, motion, music and voice are AI-generated from a family story told with consent.",
-      "Gemini TTS - FLUX - Wan 2.2 - ACE-Step"
+      "ልጆች ይጫወቱ። Let children play.",
+      "For the kids of our sefer, and every Gemena night we shared.",
+      "Made with AI: images, motion, music and the narrator's voice are AI-generated from my own childhood story, told with my consent.",
+      "Gemini TTS · FLUX.2 · Wan 2.2 · ACE-Step"
     ],
     "duration_s": 5
   },
@@ -41,137 +48,152 @@
   "shots": [
     {
       "id": "s01",
-      "duration_s": 7,
-      "purpose": "Establish place and time before any person: the world she walked through.",
+      "duration_s": 6,
+      "purpose": "Establish the place before any person: the sefer the whole story lives in, with one antenna standing out as a quiet setup for the TV.",
       "characters": [],
-      "image_prompt": "Wide shot of misty highland hills at dawn, a narrow dirt path winding between eucalyptus trees toward a distant town",
-      "motion_prompt": "mist drifting slowly across the hills, eucalyptus leaves trembling in a light breeze",
+      "image_prompt": "High wide view over a dense Addis Ababa neighbourhood in late-afternoon light, rows of rusty corrugated tin roofs, eucalyptus trees, narrow dirt alleys, laundry lines, one roof in the middle with a tall television antenna catching the sun",
+      "motion_prompt": "smoke drifts from a chimney, laundry sways, birds cross the sky, light shimmers on the tin roofs",
       "camera": "push_in",
       "music_cue": "intro, krar alone",
-      "seed": 101,
+      "seed": 201,
       "narration": {
-        "text": "Every Saturday, before the sun was up, my grandmother walked to the market.",
-        "translation_en": "Every Saturday, before the sun was up, my grandmother walked to the market."
+        "text": "ልጅነቴን በጣም እወደዋለሁ።",
+        "translation_en": "I love my childhood."
       }
     },
     {
       "id": "s02",
       "duration_s": 8,
-      "purpose": "Introduce her face, so the audience bonds with a person rather than a landscape.",
-      "characters": ["grandmother"],
-      "image_prompt": "Medium close-up of a young woman tying her white netela shawl inside a dim round tukul hut, lit by the glow of a small charcoal fire",
-      "motion_prompt": "she pulls the shawl around her shoulders, firelight flickering on her face",
-      "camera": "static",
-      "music_cue": "krar continues",
-      "seed": 102,
+      "purpose": "Introduce young me among friends, so the audience bonds with a child and a group, not a landscape.",
+      "characters": ["young_me", "sefer_kids"],
+      "image_prompt": "Children playing skipping rope in a narrow dirt alley between painted metal gates: the two boys each hold one end of a long rope swinging in an arc while the girl in the yellow dress jumps over it mid-air, the girl in green claps, dust glowing in golden light",
+      "motion_prompt": "the rope swings, the girl jumps and lands laughing, the children clap, dust rises softly",
+      "camera": "pan_right",
+      "music_cue": "kebero enters, playful",
+      "seed": 202,
       "narration": {
-        "text": "She was twenty years old. The basket on her head held everything we had to sell.",
-        "translation_en": "She was twenty years old. The basket on her head held everything we had to sell."
+        "text": "ከጎረቤት ልጆች ጋር እየተጫወትን ነው ያደግነው።",
+        "translation_en": "I grew up playing with the neighbours' children."
       }
     },
     {
       "id": "s03",
-      "duration_s": 8,
-      "purpose": "Show the stakes: the basket is the family's income.",
-      "characters": ["grandmother"],
-      "image_prompt": "Close-up of hands arranging eggs and bundles of green coffee beans in a woven sefed basket on a mud floor",
-      "motion_prompt": "her hands gently place the last egg, the basket rocks slightly",
-      "camera": "push_in",
-      "music_cue": "kebero enters softly",
-      "seed": 103,
+      "duration_s": 7,
+      "purpose": "Make the joy of play specific and personal: a close moment of hide-and-seek.",
+      "characters": ["young_me"],
+      "image_prompt": "Medium close-up of one single girl, alone, hiding behind a rusty blue corrugated tin fence, peeking out with a hand over her mouth to stop herself laughing, warm side light",
+      "motion_prompt": "she leans out to peek, giggles behind her hand, her puff buns bounce, then she ducks back",
+      "camera": "static",
+      "music_cue": "playful continues",
+      "seed": 203,
       "narration": {
-        "text": "Eggs from our hens. Coffee from the tree behind the house. Not much, but it was ours.",
-        "translation_en": "Eggs from our hens. Coffee from the tree behind the house. Not much, but it was ours."
+        "text": "በደንብ እንጫወት ነበር።",
+        "translation_en": "We played and played."
       }
     },
     {
       "id": "s04",
       "duration_s": 8,
-      "purpose": "The journey: scale of the distance, her small figure in a big land.",
-      "characters": ["grandmother"],
-      "image_prompt": "Extreme wide shot of a lone young woman walking barefoot along a ridge path at sunrise, a basket balanced on her head, long shadow",
-      "motion_prompt": "she walks steadily from left to right, shawl moving in the wind, sun rising behind the hills",
-      "camera": "pan_right",
-      "music_cue": "build",
-      "seed": 104,
+      "purpose": "The turn of the story: one house has what everyone else lacks.",
+      "characters": ["sefer_kids"],
+      "image_prompt": "Dusk in the neighbourhood, a modest house with a tall television antenna on its roof and warm light spilling from its open doorway, children running down the alley toward it",
+      "motion_prompt": "the children run toward the lit doorway, the sky darkens from orange to blue, the antenna sways slightly",
+      "camera": "push_in",
+      "music_cue": "melody lifts, anticipation",
+      "seed": 204,
       "narration": {
-        "text": "Three hours there. Three hours back. She never once let the basket fall.",
-        "translation_en": "Three hours there. Three hours back. She never once let the basket fall."
+        "text": "በሰፈራችን ቴሌቪዥን የነበረው አንድ ቤት ብቻ ነበር።",
+        "translation_en": "In our neighbourhood, only one house had a television."
       }
     },
     {
       "id": "s05",
-      "duration_s": 7,
-      "purpose": "Arrival: noise, colour and life after the quiet of the road.",
-      "characters": [],
-      "image_prompt": "A busy open-air highland market, women in white shawls under woven umbrellas, piles of red berbere and onions, donkeys, warm dust in the air",
-      "motion_prompt": "people moving between stalls, dust glowing in the light, an umbrella turning",
-      "camera": "pull_out",
-      "music_cue": "fuller, masinko melody",
-      "seed": 105,
+      "duration_s": 8,
+      "purpose": "The ritual at the heart of the memory: the whole sefer gathered in one small room for Gemena.",
+      "characters": ["young_me", "sefer_kids"],
+      "image_prompt": "Indoors, inside a small cosy living room at night with plastered walls and a curtain over the door, many children sitting close together on a woven mat on the floor, sandals piled by the door, all faces turned toward a small old box television on a wooden stand seen from behind, its cool glow lighting their faces",
+      "motion_prompt": "the television glow flickers on the children's faces, a small child squeezes in to sit, someone shushes the others",
+      "camera": "static",
+      "music_cue": "softer, warm",
+      "seed": 205,
       "narration": {
-        "text": "At the market she bargained like a merchant twice her age.",
-        "translation_en": "At the market she bargained like a merchant twice her age."
+        "text": "ሁሌም ተሰብስበን የገመናን ድራማ አንድ ላይ እናይ ነበር።",
+        "translation_en": "We would all gather and watch the drama Gemena together."
       }
     },
     {
       "id": "s06",
-      "duration_s": 8,
-      "purpose": "Her character: confidence and humour, not only hardship.",
-      "characters": ["grandmother"],
-      "image_prompt": "Medium shot of the young woman laughing as she hands a coffee bundle to an older trader across a wooden stall",
-      "motion_prompt": "she laughs and tilts her head, the trader counts coins into her palm",
-      "camera": "static",
-      "music_cue": "light, playful",
-      "seed": 106,
+      "duration_s": 6,
+      "purpose": "A silent beat: let the audience sit inside the feeling of watching, no words needed.",
+      "characters": ["young_me"],
+      "image_prompt": "Close-up of the girl's face in a dark room, lit only by the soft blue-white glow of a television, wide-eyed and holding her breath, both hands pressed to her cheeks",
+      "motion_prompt": "the glow flickers, her eyes widen, she gasps softly and grips her cheeks",
+      "camera": "push_in",
+      "music_cue": "drop to krar alone, suspense",
+      "seed": 206,
       "narration": {
-        "text": "She always said: a soft word sells more coffee than a loud voice.",
-        "translation_en": "She always said: a soft word sells more coffee than a loud voice."
+        "text": "",
+        "translation_en": ""
       }
     },
     {
       "id": "s07",
       "duration_s": 8,
-      "purpose": "The turn: what the money became, connecting her walk to the narrator's life.",
-      "characters": [],
-      "image_prompt": "Close-up of a few coins and a folded paper note tucked into a small cloth pouch beside a child's school notebook and pencil on a wooden table",
-      "motion_prompt": "lamplight flickers, a breeze lifts the notebook page",
-      "camera": "push_in",
-      "music_cue": "drop to krar alone",
-      "seed": 107,
+      "purpose": "What the TV really gave them: talking together afterwards, the start of connection.",
+      "characters": ["young_me", "sefer_kids"],
+      "image_prompt": "Night in the dirt alley, four children (the girl in yellow, the girl in green, the boy in red, the boy in blue) walking home together under a single warm street lamp, talking excitedly and gesturing with their hands, moths around the lamp",
+      "motion_prompt": "the children walk slowly, waving their hands as they argue and laugh, moths flutter around the lamp",
+      "camera": "pull_out",
+      "music_cue": "playful returns",
+      "seed": 207,
       "narration": {
-        "text": "Every coin went into a cloth pouch. That pouch paid for my father's school books.",
-        "translation_en": "Every coin went into a cloth pouch. That pouch paid for my father's school books."
+        "text": "ከዛ በኋላ ደግሞ ስለ ድራማው እንነጋገር ነበር።",
+        "translation_en": "And afterwards, we would talk about the drama."
       }
     },
     {
       "id": "s08",
-      "duration_s": 7,
-      "purpose": "The walk home at dusk, mirroring the opening to close the circle.",
-      "characters": ["grandmother"],
-      "image_prompt": "Wide shot of the young woman walking home along the same ridge path at dusk, empty basket under her arm, purple sky",
-      "motion_prompt": "she walks slowly away from camera, first stars appearing, grass moving",
-      "camera": "pull_out",
-      "music_cue": "swell",
-      "seed": 108,
+      "duration_s": 8,
+      "purpose": "Jump to today: the grown narrator looks back with joy, not regret; shown only from behind, so no real likeness.",
+      "characters": [],
+      "image_prompt": "Present day, a young adult woman seen from behind, a white netela over her shoulders, standing on a rooftop at golden hour looking down over the same neighbourhood of tin roofs, newer buildings on the horizon",
+      "motion_prompt": "her shawl moves in the breeze, the sun lowers, birds circle over the roofs",
+      "camera": "push_in",
+      "music_cue": "warm swell",
+      "seed": 208,
       "narration": {
-        "text": "She came home in the dark, tired, and proud.",
-        "translation_en": "She came home in the dark, tired, and proud."
+        "text": "አሁን ልጅነቴን ሳስብ ደስ ይለኛል እንጂ አይቆጨኝም።",
+        "translation_en": "Now, when I think of my childhood, I feel joy, not regret."
       }
     },
     {
       "id": "s09",
-      "duration_s": 9,
-      "purpose": "Land the intent: the audience is the continuation of her walk.",
+      "duration_s": 13,
+      "purpose": "The lesson made visible: a child alone with a screen indoors, while play happens just outside the window.",
       "characters": [],
-      "image_prompt": "The same dirt path in morning light today, empty, with fresh footprints in the dust leading toward the town",
-      "motion_prompt": "dust settles in the footprints, light slowly brightens",
-      "camera": "push_in",
-      "music_cue": "resolve and fade",
-      "seed": 109,
+      "image_prompt": "Present day, inside a modern apartment living room, a small Ethiopian child sitting alone on a sofa in the dim room, face lit by the cold glow of a tablet, while through the bright window behind, children play together in the sunlit street",
+      "motion_prompt": "the tablet glow flickers on the child's face, outside the window children run and laugh, curtains move slightly",
+      "camera": "static",
+      "music_cue": "quiet, reflective",
+      "seed": 209,
       "narration": {
-        "text": "I have never walked that road. But every step I take today, I take on hers.",
-        "translation_en": "I have never walked that road. But every step I take today, I take on hers."
+        "text": "በተጫወቱ ልጆችና ባልተጫወቱ ልጆች መካከል ትልቅ ልዩነት አለ። ተጫውተው ያላደጉ ልጆች ከሰው ጋር መግባባት ይከብዳቸዋል።",
+        "translation_en": "There is a big difference between children who played and those who didn't. Children who never played find it hard to get along with people."
+      }
+    },
+    {
+      "id": "s10",
+      "duration_s": 8,
+      "purpose": "Resolve on hope and a call to action: children of today running out to play, echoing shot s02.",
+      "characters": [],
+      "image_prompt": "Present day, a joyful group of Ethiopian children running and laughing down a sunlit neighbourhood alley, a plastic football in mid-air, golden light, dust glowing",
+      "motion_prompt": "the children run toward the camera laughing, the ball bounces, dust swirls in the light",
+      "camera": "pull_out",
+      "music_cue": "full melody, resolve and fade",
+      "seed": 210,
+      "narration": {
+        "text": "ስለዚህ ልጆች መጫወት አለባቸው።",
+        "translation_en": "So let children play."
       }
     }
   ]

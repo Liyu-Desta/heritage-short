@@ -47,3 +47,66 @@ moved or been replaced, record what replaced it here.
   The smoke test now sends a full sentence to TTS.
 - **Learned:** the retry/backoff in `common.http` handled the 503s correctly, but retries cannot fix a model that is
   gone. Model ids belong in `.env`, not in code, and the smoke test should run before every session.
+
+## F6: Cloudflare free image allowance ran out mid-run (2026-11-26)
+- **Broke:** while re-rendering keyframes after E2, Workers AI returned HTTP 429 `you have used up your daily free
+  allocation of 10,000 neurons` (code 4006). Two reference sheets and s01 were done; s02–s10 were not.
+- **Cause:** full-HD FLUX.2 klein-9b costs far more neurons per image than 1024×576 schnell. Smoke tests, the model
+  comparison (E1) and two full keyframe passes (12 + 3 images) used up the day's budget.
+- **Tried:** Gemini image models (`gemini-3.1-flash-image`, `gemini-2.5-flash-image`) as a fallback: both 429, no free quota.
+  Lyria for music: also 429 on the free tier.
+- **Worked around:** `assemble` now falls back to the newest older keyframe for a shot when the current one is missing,
+  and prints a warning naming it, so a preview can always be cut. The remaining keyframes render after the 00:00 UTC
+  reset; the cache means only the 9 missing frames are requested.
+- **Learned:** budget the image allowance per day: comparisons at low resolution, finals at full HD.
+  `runs.jsonl` makes the spend visible.
+
+## F7: ACE-Step would not install on Kaggle (Python 3.13)
+- **Broke:** the Kaggle music kernel failed after 0.9 min: `No matching distribution found for spacy==3.8.4`.
+  Kaggle's image is now Python 3.13; ACE-Step pins spacy 3.8.4 (Python <3.13), and ACE-Step 1.5's `pyproject.toml`
+  also says `requires-python = ">=3.11,<3.13"`.
+- **Tried:** reading both repos' requirements before guessing (pinning around one package would hit the next pin).
+- **Fixed:** the kernel builds an isolated Python 3.12 env with `uv venv -p 3.12`, installs CUDA torch from the
+  cu126 index, then ACE-Step into that env, and runs the worker with that interpreter.
+- **Also:** `kaggle kernels push` once failed with `RemoteDisconnected`; `pipeline/kaggle_run.py` now retries
+  transient Kaggle API errors with backoff.
+
+## F8: Newer TTS model read the stage direction aloud
+- **Broke:** after switching to `gemini-3.8-flash-tts` (E3), s01 (3 words) came back 13.0 s long and s02 17.3 s.
+  The validator's overrun warning flagged it.
+- **Diagnosis:** transcribing the wav in *any* language (not just Amharic) showed the model speaking
+  "Read this Amharic line slowly and warmly…" for ~8–10 s before the line. My E3 round-trip prompt had asked only for
+  an Amharic transcript, so the evaluator silently dropped the English and the comparison looked good.
+- **Fixed:** back to `gemini-2.5-flash-preview-tts`, which treats the style prompt as direction. The old clips were still
+  in the cache (the key includes the model), so the revert cost zero API calls. Deleted the bad clips.
+- **Learned:** an automatic check is only as good as its question. Ask the evaluator for *everything* it hears.
+  Duration is a cheap sanity check that caught what the ASR missed.
+
+## F9: ACE-Step ran, but every candidate failed in 0 s (API drift)
+- **Broke:** with the Python 3.12 env (F7), the kernel reported "complete" in 1.7 min, but `music_runs.jsonl` showed
+  `TypeError: ACEStepPipeline.__call__() got an unexpected keyword argument 'min_guidance'` for c1–c3. The worker
+  catches per-candidate errors so one bad seed cannot kill the job, which meant the run *looked* successful.
+- **Also:** my status poller once reported `error` for a kernel that was only queued: it searched the CLI output for the
+  word "error", and a transient network message contained it. It now parses only Kaggle's `status "..."` field.
+- **Fixed:** read the current `pipeline_ace_step.py`: the argument is now `min_guidance_scale`, and `oss_steps` is a
+  string or None. Pinned torch/torchaudio 2.7.1 (cu126), because ACE-Step saves with `torchaudio.save(..., backend=...)`,
+  which newer torchaudio releases changed.
+- **Learned:** "kernel complete" is not "job succeeded". Check the result count (the importer says how many candidates
+  it imported) and the per-item status in the GPU log.
+
+## F10: ACE-Step out of GPU memory on a T4
+- **Broke:** with F9 fixed, c1 ran 56 s and died: `CUDA out of memory ... 14.55 GiB in use` (T4 = 15 GB). c2 and c3 then
+  failed within seconds, because c1's memory was never freed.
+- **Cause:** a T4 has no bfloat16, so the 3.5B model runs in float32 (twice the memory), with everything resident on
+  the GPU, for an 87 s clip.
+- **Fixed:** `cpu_offload=True` and `overlapped_decode=True` (both in ACE-Step's constructor), `gc.collect()` and
+  `torch.cuda.empty_cache()` after each candidate. A `--no-offload` flag remains for bigger GPUs. Float16 was the
+  alternative, but it risks NaN/silent audio, which is harder to detect than an OOM.
+
+## F11: The film used the wrong music candidate
+- **Broke:** after selecting round 2's c2 (E4), the log said `score = c2.c004dd0ca3b8.wav`: round 1's c2, the 3/10
+  track that ends abruptly at 1:04. The marker file said `c2:cbe59d023da9`, so the cache believed it was correct.
+- **Cause:** `music.run` resolved `selected` with `glob("c2.*")` and took the first match alphabetically, ignoring the
+  prompt key. Harmless with one round of candidates; wrong as soon as two rounds sit side by side.
+- **Fixed:** resolve `{selected}.{music_key}.*` (the candidate made from the current prompt); fall back to the newest
+  file with a warning. Caught only because I read the stage's log line rather than trusting "done".

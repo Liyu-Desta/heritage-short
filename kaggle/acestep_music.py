@@ -20,6 +20,7 @@ ap.add_argument("--job", required=True, help="path to music_job.json")
 ap.add_argument("--out", default="/kaggle/working/music")
 ap.add_argument("--steps", type=int, default=60)
 ap.add_argument("--dtype", default="float32", help="T4: float32 (no native bf16)")
+ap.add_argument("--no-offload", action="store_true", help="keep all modules on the GPU (needs >16 GB in float32)")
 args = ap.parse_args()
 
 job = json.loads(Path(args.job).read_text(encoding="utf-8"))
@@ -30,14 +31,17 @@ MODEL = "ACE-Step"
 
 from acestep.pipeline_ace_step import ACEStepPipeline  # noqa: E402
 
-pipe = ACEStepPipeline(checkpoint_dir=None, dtype=args.dtype, torch_compile=False, cpu_offload=False)
+# float32 on a 16 GB T4 runs out of memory for an ~90 s score (FAILURES.md F10): offload idle modules to CPU
+# and decode the latent in overlapping chunks.
+pipe = ACEStepPipeline(checkpoint_dir=None, dtype=args.dtype, torch_compile=False,
+                       cpu_offload=not args.no_offload, overlapped_decode=not args.no_offload)
 
 
 def generate_one(prompt: str, lyrics: str, duration: float, seed: int, path: Path) -> None:
     pipe(audio_duration=duration, prompt=prompt, lyrics=lyrics, infer_step=args.steps, guidance_scale=15,
          scheduler_type="euler", cfg_type="apg", omega_scale=10, manual_seeds=[seed], guidance_interval=0.5,
-         guidance_interval_decay=0.0, min_guidance=3, use_erg_tag=True, use_erg_lyric=True, use_erg_diffusion=True,
-         oss_steps=[], guidance_scale_text=0.0, guidance_scale_lyric=0.0, save_path=str(path))
+         guidance_interval_decay=0.0, min_guidance_scale=3.0, use_erg_tag=True, use_erg_lyric=True, use_erg_diffusion=True,
+         oss_steps=None, guidance_scale_text=0.0, guidance_scale_lyric=0.0, save_path=str(path))
 
 
 prompt = job["prompt"] + (f", {job['bpm']} bpm" if job.get("bpm") else "")
@@ -50,6 +54,11 @@ for c in job["candidates"]:
     except Exception as e:
         status, err = "error", repr(e)[:500]
     lat = round(time.perf_counter() - t0, 1)
+    try:  # free what a failed candidate left behind, so the next one starts clean
+        import gc, torch
+        gc.collect(); torch.cuda.empty_cache()
+    except Exception:
+        pass
     with open(log_path, "a", encoding="utf-8") as fh:
         fh.write(json.dumps({"ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                              "job_id": f"{dst.name}:{status}:{int(time.time())}", "stage": "music",

@@ -50,9 +50,13 @@ The worker names its outputs with the key computed locally, so the cache stays c
 - Graceful degradation in assembly: Wan clip → pan-and-zoom of the keyframe (camera move from `camera`) → black
   frame. Missing narration still shows its subtitle. No selected score → placeholder drone.
 - `--offline` re-edits without any network access, for when a quota runs out at the worst moment.
+- If a shot's current keyframe is missing (image quota, F6), assembly uses the newest older keyframe for that shot and warns.
+- `pipeline/kaggle_run.py` automates the GPU round trip (upload dataset → push kernel → poll → download → import), retries
+  transient Kaggle API errors, and reads only Kaggle's status field. "Complete" is still checked against the per-item log (F9).
+- HTTPS uses the OS certificate store (`truststore`), so the pipeline works behind TLS-inspecting antivirus or proxies (F4).
 
 ## Assembly details
-- Clips are scaled and cropped to 1280×720, slowed by up to 1.6× to fill the shot, then the last frame is held.
+- Clips and keyframes are scaled and cropped to 1920×1080 (keyframes are rendered natively at 1920×1088, E1), slowed by up to 1.6× to fill the shot, then the last frame is held.
 - Voice lines are placed at shot start + `narration_offset_s`. The score is looped, trimmed and faded, then ducked
   under the voice with `sidechaincompress`. The mix is normalised with `loudnorm` to `loudness_lufs` (−14 by
   default, the common target for social platforms). Verified at −14.0 LUFS integrated with `ebur128`.
